@@ -43,7 +43,9 @@ lines = inf.read ().split ('\n')
 inf.close ()
 
 # Parse the input file by removing timing information
-if not inplain:
+if inplain:
+	all_formatted = True
+else:
 	re_line = re.compile ('^([0-9]*(?:\.[0-9]+)?)\t([0-9]*(?:\.[0-9]+)?)\t([^\n]+)$')
 	new = []
 	all_formatted = None
@@ -64,8 +66,10 @@ if not inplain:
 				new.append ('')
 			last_connected = m.group (2)
 			new.append (m.group (3))
-	if all_formatted:
-		lines = new
+	if all_formatted is None:
+		all_formatted = True
+if all_formatted:
+	lines = new
 
 # The interactive loop follows
 togo = 3.0
@@ -89,15 +93,18 @@ for i in range (len (lines)):
 	# Compress multiple empty lines to one
 	if lines [i] == '':
 		wait_to_start = True
+		if not all_formatted:
+			line_nr += 1
 		continue
+	line_nr += 1
 	if wait_to_start:
-		sys.stdout.write ('[%02d] PAUSE UNTIL ENTER: ' % (i+1,))
+		sys.stdout.write ('---- PAUSE UNTIL ENTER: ')
 		sys.stdout.flush ()
 		sys.stdin.readline ()
 		times.append (time.time ())
 		wait_to_start = False
 	# Print the line to respond to
-	sys.stdout.write ('[%02d] \"%s\" UNTIL ENTER: ' % (i+1, lines [i]))
+	sys.stdout.write ('[%02d] \"%s\" UNTIL ENTER: ' % (line_nr, lines [i]))
 	sys.stdout.flush ()
 	# Await an enter press
 	sys.stdin.readline ()

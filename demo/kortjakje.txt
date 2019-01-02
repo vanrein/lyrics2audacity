@@ -1,0 +1,6 @@
+0.000000	1.363398	Altijd is Kortjakje ziek
+1.363398	3.793890	Midden in de week maar Zondag niet
+3.793890	6.155286	Zondag gaat zij naar de kerk
+6.155286	8.707340	Met een boek vol zilverwerk
+8.707340	11.163314	Altijd is Kortjakje ziek
+11.163314	14.451426	Midden in de week maar zondag niet

@@ -1,0 +1,36 @@
+0.000000	7.333806	Ey cheraghe har bahaneh
+7.333806	11.272796	az to roshan
+11.272796	14.952038	az to roshan
+14.952038	22.997470	Ey ke harfaie ghashanget
+22.997470	30.988354	mano ashti dade ba man
+30.988354	37.895160	Mano gonjishkaie khouneh
+37.895160	47.677028	didanet adatemouneh
+47.677028	56.014778	Be havaie didane[ ]to
+56.014778	65.525140	par migirim az tou [d]khouneh
+65.525140	68.156083	Baz miaim
+68.156083	72.671708	ke mesle har[ ]rouz
+72.671708	81.475651	baramoun douneh bepashi
+81.475651	85.687820	Mano gonjishka
+85.687820	96.196599	mimirim to age
+96.196599	104.079777	khouneh nabashi
+111.403389	117.429283	Hamishe esme to boude
+117.429283	121.637335	avalo akhare harfam
+121.637335	126.263580	Bas ke esme toro khoundam
+126.263580	130.670992	[oei-o]atre to dare nafas ham
+130.670992	134.840302	Atre harfaie ghashanget
+134.840302	139.287948	atre [g]yek sahra shaghaiegh
+139.287948	143.926782	To hamoun sharmi kea[ ]z[ ]to
+143.926782	149.736141	sorkhe gounehaie ashegh
+149.736141	152.697803	Shere man range
+152.697803	154.728189	cheshate
+154.728189	159.082859	range[ ]pake biriaii
+159.082859	163.532271	Behtarin rangi ke didam
+163.532271	168.278201	range zarde kahrobaii
+168.278201	172.221149	Mano gonjishkaie khouneh
+172.221149	176.635763	didanet adatemouneh
+176.635763	180.846210	Be havaie didane[ ]to
+180.846210	185.305361	par migirim az tou louneh
+185.305361	190.355423	Mano gonjishkaie khouneh
+190.355423	194.581132	didanet adatemouneh
+194.581132	200.359154	Be havaie didane[ ]to
+200.359154	208.732382	par migirim az tou louneh

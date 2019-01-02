@@ -1,0 +1,121 @@
+#!/usr/bin/env python
+#
+# lyrics2time -- load lyrics, and define start/end times from enter presses
+#
+# This script maps a text file with line-by-line lyrics to labels for Audacity.
+# It loads the lines of text to include, one at a time.  The first line is
+# assumed to not start immediately, but at the first press of enter.  The
+# time for that key press is the start time.  The time for the key press
+# to start the next line is its end time.  After the last line, another
+# key press is awaited to detect the last end time.  Empty lines are treated
+# in the same way, except nothing is record into the output file for those.
+#
+# The output is written in Audacity's label format: a tab-separated set of
+# three fields, the first and second defining a floating point start and end
+# time, and the remainder holding the label.  Once imported, chances are that
+# you will have to shift timing of the entire label track.  If you would like
+# to time the start by pressing enter, then include an empty initial line.
+#
+# From: Rick van Rein <rick@openfortress.nl>
+
+
+import sys
+import time
+import re
+
+
+# Command line processing
+argc = len (sys.argv)
+if argc == 2:
+	inplain = False
+	infile = otfile = sys.argv [1]
+elif argc == 3:
+	inplain = True
+	infile = sys.argv [1]
+	otfile = sys.argv [2]
+else:
+	sys.stderr.write ('Usage: %s lyrics.txt [labeled.txt]\n' % (sys.argv [0],))
+	sys.exit (1)
+
+# Read the input file as a sequence of lines
+inf = open (infile, 'r')
+lines = inf.read ().split ('\n')
+inf.close ()
+
+# Parse the input file by removing timing information
+if not inplain:
+	re_line = re.compile ('^([0-9]*(?:\.[0-9]+)?)\t([0-9]*(?:\.[0-9]+)?)\t([^\n]+)$')
+	new = []
+	all_formatted = None
+	last_connected = '0.000000'
+	for i in range (len (lines)):
+		if lines [i] == '':
+			continue
+		#DEBUG# print 'Matching [%02d] %s' % (i+1,lines [i])
+		m = re_line.match (lines [i])
+		formatted = (m is not None)
+		if all_formatted is None:
+			all_formatted = formatted
+		if formatted != all_formatted:
+			sys.stderr.write ('Failed to parse line %d as START [tab] END [tab] LABELTEXT\n' % (i+i,))
+			sys.exit (1)
+		if all_formatted:
+			if last_connected != m.group (1):
+				new.append ('')
+			last_connected = m.group (2)
+			new.append (m.group (3))
+	if all_formatted:
+		lines = new
+
+# The interactive loop follows
+togo = 3.0
+timeformat = '\rRecording starts in %3.1f seconds...    '
+sys.stdout.write ('Recording?')
+endtm = time.time () + togo
+while togo > 0.0:
+	sys.stdout.write (timeformat % togo)
+	togo = endtm - time.time ()
+sys.stdout.write ('\r')
+print '#######################'
+print '### START RECORDING ###'
+print '#######################'
+print
+wait_to_start = False
+last_time = None
+line_nr = 0
+initial = time.time ()
+times = [initial]
+for i in range (len (lines)):
+	# Compress multiple empty lines to one
+	if lines [i] == '':
+		wait_to_start = True
+		continue
+	if wait_to_start:
+		sys.stdout.write ('[%02d] PAUSE UNTIL ENTER: ' % (i+1,))
+		sys.stdout.flush ()
+		sys.stdin.readline ()
+		times.append (time.time ())
+		wait_to_start = False
+	# Print the line to respond to
+	sys.stdout.write ('[%02d] \"%s\" UNTIL ENTER: ' % (i+1, lines [i]))
+	sys.stdout.flush ()
+	# Await an enter press
+	sys.stdin.readline ()
+	times.append (time.time ())
+print
+print '#######################'
+print '### ENDED RECORDING ###'
+print '#######################'
+print
+
+# Produce the output, line by line
+otf = open (otfile, 'w')
+time_pairs = zip (times, times [1:])
+for i in range (len (lines)):
+	l = lines [i]
+	if l != '':
+		(s,e) = time_pairs [i]
+		s -= initial
+		e -= initial
+		otf.write ('%f\t%f\t%s\n' % (s,e,l))
+otf.close ()

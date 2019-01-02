@@ -5,3 +5,7 @@
 - Consider averaging multiple measurements
 - Make the start time a commandline option
 - Make an initial Enter a commandline option
+- Import/export of .srt format?
+
+SRT Format:
+https://www.matroska.org/technical/specs/subtitles/srt.html

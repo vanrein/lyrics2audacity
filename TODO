@@ -1,5 +1,6 @@
 + Reload lyrics file with timing for editing
 + Reinsert empty lines when reloading lyrics
+- Implement time sync and update TIMESYNC.MD accordingly
 - Specify in cmdline options what lines to change
 - Non-empty Enter marks previous Enter keying is faulty
 - Consider averaging multiple measurements
